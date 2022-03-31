@@ -3,13 +3,13 @@ import { useState } from 'react'
 import httpClient from '../../axiosConfig'
 import { useNavigate, Link } from "react-router-dom"
 
-function SignUp() {
+function SignIn() {
   let navigate = useNavigate();
   const [form, setForm] = useState({
     email: '',
     password: ''
   })
-  const [signUpErrors, setSignUpErrors] = useState({})
+  const [signInErrors, setSignInErrors] = useState(false)
   const { email, password, confirm_password } = form
 
   const onChange = e => {
@@ -20,12 +20,13 @@ function SignUp() {
   }
 
   const onSubmit = async (e) => {
+    setSignInErrors(false)
     e.preventDefault()
     try {
-      const response = await httpClient.post('users', form)
+      const response = await httpClient.post('login', form)
       navigate('/')
     } catch (error) {
-      setSignUpErrors(error.response.data.errors)
+      setSignInErrors(true)
     }
   }
   
@@ -33,7 +34,7 @@ function SignUp() {
     <div className="bg-grey-lighter min-h-screen flex flex-col">
             <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                 <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
-                    <h1 className="mb-8 text-3xl text-center">Sign up</h1>
+                    <h1 className="mb-8 text-3xl text-center">Login</h1>
                     <input 
                         type="text"
                         className="block border border-grey-light w-full p-3 rounded"
@@ -41,9 +42,6 @@ function SignUp() {
                         value={email}
                         onChange={onChange}
                         placeholder="Email" />
-                    { signUpErrors.email?.length && 
-                      <span className='text-red-500'>{signUpErrors.email.join(', ')}</span>
-                    }
 
                     <input 
                         type="password"
@@ -52,31 +50,21 @@ function SignUp() {
                         value={password}
                         onChange={onChange}
                         placeholder="Password" />
-                    { signUpErrors.password?.length && 
-                      <span className='text-red-500'>{signUpErrors.password.join(', ')}</span>
+                    { signInErrors && 
+                      <span className='text-red-500'>Bad User Credentials</span>
                     }
                     
-                    {/* <input 
-                        type="password"
-                        className="block border border-grey-light w-full p-3 rounded mt-4"
-                        id="confirm_password"
-                        value={confirm_password}
-                        onChange={onChange}
-                        placeholder="Confirm Password" />
-                    { signUpErrors.confirm_password?.length && 
-                      <span className='text-red-500'>{signUpErrors.confirm_password.join(', ')}</span>
-                    } */}
                     <button
                         type="submit"
                         className="w-full text-center py-3 rounded bg-green-500 text-white hover:bg-green-700 focus:outline-none my-1"
                         onClick={onSubmit}
-                    >Create Account</button>
+                    >Sign In</button>
                 </div>
 
                 <div className="text-grey-dark mt-6">
-                    Already have an account?
-                    <Link className="no-underline border-b border-blue text-blue ml-2" to="/sign-in">
-                      Log in
+                    Does not have an account yet?
+                    <Link className="no-underline border-b border-blue text-blue ml-2" to="/sign-up">
+                      Sign Up
                     </Link>.
                 </div>
             </div>
@@ -84,4 +72,4 @@ function SignUp() {
   )
 }
 
-export default SignUp
+export default SignIn

@@ -4,7 +4,7 @@ import httpClient from '../axiosConfig'
 function Dashboard() {
 
   useEffect(async () => {
-    const user = await httpClient.get('/users/auth')
+    const user = await httpClient.get('/logged_in')
   });
 
   return (
