@@ -1,4 +1,18 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+
+function SidebarLink ({ title, icon, link }) {
+  return (
+    <>
+      <li>
+        <Link to={link} className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
+          <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i type="solid" className={`bx bxs-${icon}`}></i></span>
+          <span className="text-sm font-medium">{title}</span>
+        </Link>
+      </li>
+    </>
+  )
+}
 
 function Sidebar() {
   return (
@@ -11,55 +25,7 @@ function Sidebar() {
             <h1 className="text-3xl mx-4 uppercase"><img width="64" height="64" src="https://lh3.googleusercontent.com/rje_4dnymfb5FzllBp78a_DIm1THuLc2gy07ChKWyk7qB5UBSa6AH0nNETuqLZBY0s0" /></h1>
           </div>
           <ul className="flex flex-col py-4">
-            <li>
-              <a href="#" className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
-                <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i className="bx bx-home"></i></span>
-                <span className="text-sm font-medium">Dashboard</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
-                <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i className="bx bx-music"></i></span>
-                <span className="text-sm font-medium">Music</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
-                <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i className="bx bx-drink"></i></span>
-                <span className="text-sm font-medium">Drink</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
-                <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i className="bx bx-shopping-bag"></i></span>
-                <span className="text-sm font-medium">Shopping</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
-                <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i className="bx bx-chat"></i></span>
-                <span className="text-sm font-medium">Chat</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
-                <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i className="bx bx-user"></i></span>
-                <span className="text-sm font-medium">Profile</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
-                <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i className="bx bx-bell"></i></span>
-                <span className="text-sm font-medium">Notifications</span>
-                <span className="ml-auto mr-6 text-sm bg-red-100 rounded-full px-3 py-px text-red-500">5</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" className="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
-                <span className="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i className="bx bx-log-out"></i></span>
-                <span className="text-sm font-medium">Logout</span>
-              </a>
-            </li>
+            <SidebarLink link="/bank_accounts" title="Bank Accounts" icon="bank" />
           </ul>
         </div>
       </div>
