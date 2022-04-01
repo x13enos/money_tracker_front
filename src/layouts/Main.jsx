@@ -5,9 +5,9 @@ import Sidebar from '../components/Sidebar';
 const MainLayout =() =>{
   return(
     <>
-      <div class="flex flex-row">
+      <div className="flex flex-row">
         <div><Sidebar /></div>
-        <div className='ml-4 mt-4'><Outlet /></div>
+        <div className='mx-8 mt-4 w-full'><Outlet /></div>
       </div>
     </>
   )
