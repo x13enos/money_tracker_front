@@ -3,6 +3,7 @@ import Dashboard from './pages/Dashboard';
 import SignUp from './pages/auth/SignUp';
 import SignIn from './pages/auth/SignIn';
 import MainLayout from './layouts/Main';
+import Accounts from './pages/Accounts';
 import BankAccounts from './pages/BankAccounts';
 import './App.css';
 
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainLayout />} >
             <Route path="/" element={<Dashboard />} />
+            <Route path="/accounts" element={<Accounts />} />
             <Route path="/bank_accounts" element={<BankAccounts />} />
           </Route>
           <Route path="/sign-up" element={<SignUp />} />

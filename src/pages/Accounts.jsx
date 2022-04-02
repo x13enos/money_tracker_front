@@ -2,15 +2,15 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import httpClient from '../axiosConfig'
 
-function BankAccounts() {
-  const [bankAccounts, setBankAccounts] = useState([])
-  const [newBankAccount, setNewBankAccount] = useState(false)
-  const [form, setForm] = useState({ merchant_id: '', merchant_password: '' })
+function Accounts() {
+  const [accounts, setAccounts] = useState([])
+  const [newAccount, setNewAccount] = useState(false)
+  const [form, setForm] = useState({ name: '', credit_card: '', balance: 0.0 })
   const [errors, setErrors] = useState({})
 
   useEffect( async () => {
-    const response = await httpClient('/bank_accounts')
-    setBankAccounts(response.data)
+    const response = await httpClient('/accounts')
+    setAccounts(response.data)
   }, [])
 
   const onChange = (e) => {
@@ -18,14 +18,14 @@ function BankAccounts() {
   }
 
   const closeForm = () => {
-    setNewBankAccount(false)
-    setForm({ merchant_id: '', merchant_password: '' })
+    setNewAccount(false)
+    setForm({ name: '', credit_card: '', balance: 0.0 })
   }
 
-  const createBankAccount = async () => {
+  const createAccount = async () => {
     try {
-      const response = await httpClient.post('/bank_accounts', form)
-      setBankAccounts([...bankAccounts, response.data])
+      const response = await httpClient.post('/accounts', form)
+      setAccounts([...accounts, response.data])
       closeForm()
     } catch (error) {
       setErrors(error.response.data.errors)
@@ -35,42 +35,55 @@ function BankAccounts() {
   return (
     <>
       <div className='flex justify-between'>
-        <h1 className='text-4xl mt-1 mb-10'>Bank Accounts({ bankAccounts.length })</h1>
-        { !newBankAccount &&
+        <h1 className='text-4xl mt-1 mb-10'>Accounts({ accounts.length })</h1>
+        { !newAccount &&
           <button 
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 h-10 mt-1 rounded"
-            onClick={() => { setNewBankAccount(true) }}>
+            onClick={() => { setNewAccount(true) }}>
             New
           </button>
         }
       </div>
 
-      { newBankAccount && 
+      { newAccount && 
         <form action="#" method="POST">
           <div className="shadow overflow-hidden sm:rounded-md border mb-4">
             <div className="px-4 pt-5 pb-3 bg-white">
               <div className="grid grid-cols-6 gap-6">
                 <div className="col-span-6 sm:col-span-3">
-                  <label htmlFor="merchant_id" className="block text-sm font-medium text-gray-700">Merchant ID</label>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">Account Name</label>
                   <input 
                     type="text" 
-                    name="merchant_id" 
-                    id="merchant_id"
-                    value={form.merchant_id}
+                    name="name" 
+                    id="name"
+                    value={form.name}
                     onChange={onChange}
                     className="mt-1 p-1 pl-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md border" />
-                  {!!errors["merchant_id"] &&
-                    <span className='text-red-500'>{ errors["merchant_id"].join(", ") }</span>
+                  {!!errors["name"] &&
+                    <span className='text-red-500'>{ errors["name"].join(", ") }</span>
                   }
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
-                  <label htmlFor="merchant_password" className="block text-sm font-medium text-gray-700">Merchant Password</label>
+                  <label htmlFor="credit_card" className="block text-sm font-medium text-gray-700">Credit Card Number(if it's possible)</label>
                   <input 
                     type="text" 
-                    name="merchant_password" 
-                    id="merchant_password"
-                    value={form.merchant_password}
+                    name="credit_card" 
+                    id="credit_card"
+                    value={form.credit_card}
+                    onChange={onChange}
+                    className="mt-1 p-1 pl-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md border" />
+                </div>
+
+                <div className="col-span-6 sm:col-span-3">
+                  <label htmlFor="balance" className="block text-sm font-medium text-gray-700">Current Balance</label>
+                  <input 
+                    type="number" 
+                    min="0" 
+                    step="any"
+                    name="balance" 
+                    id="balance"
+                    value={form.balance}
                     onChange={onChange}
                     className="mt-1 p-1 pl-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md border" />
                 </div>
@@ -86,7 +99,7 @@ function BankAccounts() {
               <button 
                 type="button" 
                 className="mr-4 mb-2 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                onClick={createBankAccount}>
+                onClick={createAccount}>
                   Save
               </button>
             </div>
@@ -94,30 +107,30 @@ function BankAccounts() {
         </form>
       }
       
-      { bankAccounts.length > 0 && 
+      { accounts.length > 0 && 
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
-                Id
+                Name
               </th>
               <th scope="col" className="px-6 py-3">
-                Merchant ID
+                Credit Card
               </th>
               <th scope="col" className="px-6 py-3">
-                Merchant Password
+                Balance
               </th>
               <th scope="col" className="px-6 py-3">
               </th>
             </tr>
           </thead>
           <tbody>
-            {bankAccounts.map((bankAccount) =>
-              <tr key={bankAccount.id}
+            {accounts.map((account) =>
+              <tr key={account.id}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td className="px-6 py-4">{bankAccount.id}</td>
-                <td className="px-6 py-4">{bankAccount.merchant_id}</td>
-                <td className="px-6 py-4">{bankAccount.merchant_password}</td>
+                <td className="px-6 py-4">{account.name}</td>
+                <td className="px-6 py-4">{account.credit_card}</td>
+                <td className="px-6 py-4">{account.balance}</td>
                 <td className="px-6 py-4 text-right"></td>
               </tr>
             )}
@@ -128,4 +141,4 @@ function BankAccounts() {
   )
 }
 
-export default BankAccounts
+export default Accounts

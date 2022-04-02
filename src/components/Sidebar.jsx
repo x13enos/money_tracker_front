@@ -26,6 +26,7 @@ function Sidebar() {
           </div>
           <ul className="flex flex-col py-4">
             <SidebarLink link="/bank_accounts" title="Bank Accounts" icon="bank" />
+            <SidebarLink link="/accounts" title="Accounts" icon="credit-card-front" />
           </ul>
         </div>
       </div>
